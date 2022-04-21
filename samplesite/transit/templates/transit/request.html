@@ -1,0 +1,58 @@
+{% extends "transit/layout/basic.html" %}
+
+{% block Request %}
+<h3 align="center"> Заявки </h3>
+
+<div class="d-flex">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Названиие</th>
+            <th scope="col">Направление</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Масса</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in request %}
+        <tr>
+            <th>{{i.name}}</th>
+            <td>{{i.direction}}</td>
+            <td>{{i.type}}</td>
+            <td>{{i.time}}</td>
+            <td>{{i.weight}}{{i.measure_name}}</td>
+            <td>
+                <button type="button" class="btn btn-outline-success btn-sm">Принять</button>
+            </td>
+        </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Выход</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span> Вы действительно хотите выйти ?</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">Нет</button>
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Да</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
